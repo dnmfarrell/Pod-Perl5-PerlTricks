@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-Pod::PerlTricks - parser for PerlTricks pseudopod
+Pod::PerlTricks - Perl 6 parser for PerlTricks pseudopod
 
 =head1 SYNOPSIS
 
@@ -22,7 +22,7 @@ PerlTricks pseudopod extends ordinary L<pod|http://perldoc.perl.org/perlpod.html
 
 The C<=include> directive takes a filepath to another pod file. When C<Pod::PerlTricks::Grammar> parses the include directive, it automatically reads and includes the pod in the other file into the match object.
 
-This is useful if you have boilerplate text you want ot include in evry pod file, (like author details) but don't want to type out every time.
+This is useful if you have boilerplate text you want ot include in every pod file, (like author details) but don't want to type out every time.
 
   =include path/to/author.pod
 
@@ -82,7 +82,7 @@ D stands for data, and T for terminal to complement the CE<lt>E<gt> formatting c
 
 =head3 GE<lt>github/repoE<gt>
 
-G stands for GitHub. It should build a hyperlink to a Github repo.
+G stands for GitHub. It should build a hyperlink to a Github repo or user page.
 
 =head3 #E<lt>hashtagE<gt>, @E<lt>handleE<gt>
 
