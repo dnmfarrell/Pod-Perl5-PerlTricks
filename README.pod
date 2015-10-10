@@ -4,23 +4,23 @@
 
 =head1 NAME
 
-Pod::Perl5::PerlTricks - parser for PerlTricks pseudopod
+Pod::PerlTricks - parser for PerlTricks pseudopod
 
 =head1 SYNOPSIS
 
-  use Pod::Perl5::PerlTricks::Grammar;
+  use Pod::PerlTricks::Grammar;
 
-  my $match = Pod::Perl5::PerlTricks::Grammar.parsefile('example.pod');
+  my $match = Pod::PerlTricks::Grammar.parsefile('example.pod');
 
 =head1 DESCRIPTION
 
-PerlTricks pseudopod extends ordinary L<pod|http://perldoc.perl.org/perlpod.html> with new syntax for blogging / publishing. C<Pod::Perl5::PerlTricks::Grammar> supports all of regular pod, plus the following new directives.
+PerlTricks pseudopod extends ordinary L<pod|http://perldoc.perl.org/perlpod.html> with new syntax for blogging / publishing. C<Pod::PerlTricks::Grammar> supports all of regular pod, plus the following new directives.
 
 =head2 new command blocks
 
 =head3 include filepath
 
-The C<=include> directive takes a filepath to another pod file. When C<Pod::Perl5::PerlTricks::Grammar> parses the include directive, it automatically reads and includes the pod in the other file into the match object.
+The C<=include> directive takes a filepath to another pod file. When C<Pod::PerlTricks::Grammar> parses the include directive, it automatically reads and includes the pod in the other file into the match object.
 
 This is useful if you have boilerplate text you want ot include in evry pod file, (like author details) but don't want to type out every time.
 

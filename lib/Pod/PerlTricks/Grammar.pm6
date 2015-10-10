@@ -1,6 +1,6 @@
 use Pod::Perl5::Grammar;
 
-grammar Pod::Perl5::PerlTricks::Grammar is Pod::Perl5::Grammar
+grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
 {
   # new formatting codes!
   multi token format-code:data      {  D \< <multiline-text> \> }

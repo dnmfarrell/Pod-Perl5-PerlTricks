@@ -6,10 +6,10 @@ use lib 'lib';
 
 plan 16;
 
-use Pod::Perl5::PerlTricks::Grammar; pass 'import module';
+use Pod::PerlTricks::Grammar; pass 'import module';
 
 ok my $match
-  = Pod::Perl5::PerlTricks::Grammar.parsefile('test-corpus/SampleArticle.pod'),
+  = Pod::PerlTricks::Grammar.parsefile('test-corpus/SampleArticle.pod'),
   'parse sample article';
 
 is $match<pod-section>[0]<command-block>[1]<singleline-text>.Str,

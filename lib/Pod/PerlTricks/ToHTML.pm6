@@ -1,4 +1,4 @@
-class Pod::Perl5::PerlTricks::ToHTML
+class Pod::PerlTrick::ToHTML
 {
   # table handling
   method command-block:table ($match)
