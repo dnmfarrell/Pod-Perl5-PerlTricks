@@ -3,11 +3,11 @@ use Pod::Perl5::Grammar;
 grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
 {
   # new formatting codes!
-  multi token format-code:data      {  D \< <multiline-text> \> }
-  multi token format-code:github    {  G \< <singleline-format-text> \> }
+  multi token format-code:data      {  D \< <format-text> \> }
+  multi token format-code:github    {  G \< <name> [\/<name>]* \> }
   multi token format-code:hashtag   { '#'\< <name> \> }
-  multi token format-code:note      {  N \< <multiline-text> \> }
-  multi token format-code:terminal  {  T \< <multiline-text> \> }
+  multi token format-code:note      {  N \< <format-text> \> }
+  multi token format-code:terminal  {  T \< <format-text> \> }
   multi token format-code:twitter   { '@'\< <name> \> }
   multi token format-code:wikipedia {  W \< <singleline-format-text> \> }
 
@@ -30,7 +30,7 @@ grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
 
   # author metadata
   multi token command-block:author-name  { ^^\=author\-name  \h+ <singleline-text> \n }
-  multi token command-block:author-bio   { ^^\=author\-bio   \h+ <singleline-text> \n }
+  multi token command-block:author-bio   { ^^\=author\-bio   \h+ <multiline-text> \n }
   multi token command-block:author-image { ^^\=author\-image \h+ <format-code:link>\n }
 
   # article metadata

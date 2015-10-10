@@ -12,7 +12,7 @@
 
 =cover-image L<file://onion_charcoal.png>
 
-How can I easily run the same tests on different data without duplicating a lot of code? If I follow my usual pattern, I start off with a couple of tests where I write some code then cut-and-paste that a couple of times. I add a few more tests before I realize I have a mess. If I had the foresight to know that I would make a mess (again), I would have started with a table of data and a little bit of code that went through it.
+How can I easily run the same tests on different data without duplicating a lot of code? If I follow my usual pattern, I start off with a couple of tests where I write some code then cut-and-paste that a couple of times. I add a few more tests before I realize I have a mess. If I had the foresight to know that I would make a mess (again), I would have started with a table of data and a little bit of code that went through it.N<This is known as W<data-driven-testing>>
 
 Consider a silly and small example of testing C<sprintf>-like behaviour of M<String::Sprintf>. I can use this module to create my own format specifiers, such as one to commify a number. I stole this mostly from its documentation, although I threw in the L<http://www.effectiveperlprogramming.com/2015/04/use-v5-20-subroutine-signatures/|v5.20 signatures feature> and the L<http://www.effectiveperlprogramming.com/2010/09/use-the-r-substitution-flag-to-work-on-a-copy/|v5.14 non-destructive C</r> flag on the substitution operator> because I love those features:
 
@@ -142,15 +142,15 @@ It can get even better. So far, I've put all the input data in the test file its
 
 Or a pipe separated values file:
 
-=begin output
+=begin data
 
   %.2N|1234.56|1,234.56
   %.2N|1234|1,234.00
   %.0N|1234.49|1,234
 
-=end output
+=end data
 
-I create C<@data> in the test file by reading and parsing the external file:
+I create C<@data> in the test file by reading and parsing the external file D<tests.t>:
 
   open my $test_data_fh, '<', $test_file_name or die ...;
 
@@ -160,7 +160,7 @@ I create C<@data> in the test file by reading and parsing the external file:
     push @data, split /\t/;
     }
 
-Now none of the data are in the test file. And, there's nothing special about a simple text file. I could do a little bit more work to take the data from an Excel file (perhaps that most useful wizard skill in the world of business) or even a database:
+I can execute the tests with T<perl tests.t> Now none of the data are in the test file. And, there's nothing special about a simple text file. I could do a little bit more work to take the data from an Excel file (perhaps that most useful wizard skill in the world of business) or even a database:
 
   use DBI;
 
