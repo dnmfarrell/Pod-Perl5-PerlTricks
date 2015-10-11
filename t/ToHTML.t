@@ -10,3 +10,5 @@ use Pod::PerlTricks::ToHTML; pass 'import module';
 ok my $actions = Pod::PerlTricks::ToHTML.new, 'constructor';
 
 my $match = Pod::PerlTricks::Grammar.parsefile('test-corpus/SampleArticle.pod', :$actions);
+
+say $match.made;

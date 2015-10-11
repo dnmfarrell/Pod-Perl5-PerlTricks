@@ -24,6 +24,7 @@ grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
 
   # article metadata
   multi token command-block:tags { ^^\=tags [\h+ <name> ]+ \n }
+  multi token command-block:lang { ^^\=lang \h+ <name> \n }
 
   # YYYY-MM-DD
   token date {
