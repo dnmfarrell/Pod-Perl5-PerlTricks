@@ -13,20 +13,9 @@ grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
 
   # new command blocks!
 
-  # include will have the grammar parse the included file too
+  # include will have the action class parse the included file too
   # useful for boilerplate metadata like author data
-  multi token command-block:include {
-    ^^\=include \h+ <file> \n
-
-    # now parse the file
-    {
-      $<file>.make(self.parsefile($<file>, :actions($*ACTIONS)));
-      CATCH { die "Error parsing =include directive $_" }
-    }
-  }
-
-  # filepath to other pod
-  token file { \V+ }
+  multi token command-block:include { ^^\=include \h+ <format-code:link> \n }
 
   # author metadata
   multi token command-block:author-name  { ^^\=author\-name  \h+ <singleline-text> \n }
@@ -70,6 +59,7 @@ grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
   multi token command-block:title    { ^^\=title \h+ <singleline-text> \n }
   multi token command-block:subtitle { ^^\=subtitle \h+ <singleline-text> \n }
   multi token command-block:section  { ^^\=section \h+ <singleline-text> \n }
+  multi token command-block:synopsis { ^^\=synopsis \h+ <singleline-text> \n }
 
   # images
   multi token command-block:image       { ^^\=image \h+ <format-code:link> \n }

@@ -6,7 +6,7 @@
 
 =publish-date 2000-12-31T00:00:00
 
-=include test-corpus/briandfoy.pod
+=include L<file://test-corpus/briandfoy.pod>
 
 =tags unit testing data table perl tdd
 

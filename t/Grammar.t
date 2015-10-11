@@ -4,7 +4,7 @@
 use Test;
 use lib 'lib';
 
-plan 21;
+plan 19;
 
 use Pod::PerlTricks::Grammar; pass 'import module';
 
@@ -26,12 +26,9 @@ is $pod<command-block>[3]<datetime>.Str,
   '2000-12-31T00:00:00',
   'publish-date';
 
-#=include tests
-ok my $include = $pod<command-block>[4]<file>.made, 'Extract the =include pod';
-is $include<pod-section>[0]<command-block>[0]<singleline-text>, 'brian d foy', 'author-name matches expected';
-is $include<pod-section>[0]<command-block>[1]<multiline-text><format-code>[3].Str,
-  'G<briandfoy>',
-  'Match Github format-code';
+is my $include = $pod<command-block>[4]<file>.Str,
+  'test-corpus/briandfoy.pod',
+  'Match filepath of include directive';
 
 is $pod<command-block>[5]<name>.elems, 6, '6 tags found';
 is $pod<command-block>[5]<name>[3], 'table', 'matched table tag';
