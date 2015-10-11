@@ -22,9 +22,9 @@ PerlTricks pseudopod extends ordinary L<pod|http://perldoc.perl.org/perlpod.html
 
 The C<=include> directive takes a filepath to another pod file. When C<Pod::PerlTricks::Grammar> parses the include directive, it automatically reads and includes the pod in the other file into the match object.
 
-This is useful if you have boilerplate text you want ot include in every pod file, (like author details) but don't want to type out every time.
+This is useful if you have boilerplate text you want t include in every pod file, (like author details) but don't want to type out every time.
 
-  =include path/to/author.pod
+  =include L<file://path/to/author.pod>
 
 =head3 =author-name, author-bio, author-image
 
