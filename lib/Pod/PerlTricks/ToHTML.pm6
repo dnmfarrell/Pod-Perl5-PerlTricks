@@ -13,12 +13,9 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   # override TOP to handle footnotes
   method TOP ($match)
   {
-    my $head = %.meta.elems
-      ?? "\n<head>\n{%.meta.values.join("\n")}\n</head>" !! '';
-    my $body = "\n<body>\n{self.stringify-match($match) ~ self.build-footnotes}\n</body>";
-    my $html = "<html{$.lang || ''}>{$head}{$body}\n</html>\n";
-    # remove double blank lines
-    $match.make($html.subst(/\n ** 3..*/, {"\n\n"}, :g));
+    $.head = @.meta.elems ?? @.meta.values.join("\n") !! '';
+    $.body = (self.stringify-match($match) ~ self.build-footnotes).subst(/\n ** 3..*/, {"\n\n"}, :g);
+    $match.make("<html{$.lang || ''}>\n{$.head ?? "<head>\n" ~ $.head ~ "\n</head>\n" !! ''}<body>\n{$.body}\n</body>\n</html>\n");
   }
 
   # foot notes are an unordered list inside a div
@@ -143,9 +140,9 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
     CATCH { die "Error parsing =include directive $_" }
 
     # copy any meta directives out of the sub-action class
-    for $actions.meta.pairs
+    for $actions.meta
     {
-      %.meta{$_.key.Str} = $_.value.Str;
+      @.meta.push($_.Str);
     }
     # get the inline pod
     # TODO handle more than 1 pod section ?
@@ -160,7 +157,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   # save in meta to be used in <head> later
   multi method command-block:title ($match)
   {
-    %.meta<title> = "<title>{$match<singleline-text>.made}</title>";
+    @.meta.push("<title>{$match<singleline-text>.made}</title>");
     $match.make("<div class=\"title\">{$match<singleline-text>.made}</div>");
   }
 
@@ -178,7 +175,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   # the bio and pic are inline elements which get a class identifying them
   multi method command-block:author-name ($match)
   {
-    %.meta<author-name> = "<meta name=\"author\" content=\"{$match<singleline-text>.made}\">";
+    @.meta.push("<meta name=\"author\" content=\"{$match<singleline-text>.made}\">");
     $match.make('');
   }
 
@@ -195,7 +192,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   # synopsis maps to meta "description"
   multi method command-block:synopsis ($match)
   {
-    %.meta<synopsis> = "<meta name=\"description\" content=\"{$match<singleline-text>.made}\">";
+    @.meta.push("<meta name=\"description\" content=\"{$match<singleline-text>.made}\">");
     $match.make('');
   }
 
@@ -208,7 +205,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
 
   multi method command-block:tags ($match)
   {
-    %.meta<tags> = "<meta name=\"keywords\" content=\"{$match<name>.values.join(",")}\">";
+    @.meta.push("<meta name=\"keywords\" content=\"{$match<name>.values.join(",")}\">");
     $match.make('');
   }
 
@@ -220,7 +217,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
 
   multi method command-block:publish-date ($match)
   {
-    %.meta<publish-date> = "<meta name=\"publish-date\" content=\"{$match<datetime>.made}\">";
+    @.meta.push("<meta name=\"publish-date\" content=\"{$match<datetime>.made}\">");
     $match.make('');
   }
 
