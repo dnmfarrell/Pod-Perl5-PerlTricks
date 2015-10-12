@@ -133,8 +133,9 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
     die 'Error parsing =include block L<>, should be in the format: L<file://path/to/file.pod>'
       unless $filepath;
 
-    # can't use self - it has state!
-    my $actions  = Pod::PerlTricks::ToHTML.new;
+    # can't use current self - it has state!
+    my $actions  = self.new;
+ 
     # now parse the file
     my $submatch = Pod::PerlTricks::Grammar.parsefile($filepath, :$actions);
     CATCH { die "Error parsing =include directive $_" }
@@ -142,7 +143,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
     # copy any meta directives out of the sub-action class
     for $actions.meta
     {
-      @.meta.push($_.Str);
+      @.meta.push($_);
     }
     # get the inline pod
     # TODO handle more than 1 pod section ?
