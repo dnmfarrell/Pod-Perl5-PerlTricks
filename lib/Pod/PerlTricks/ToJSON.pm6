@@ -1,8 +1,10 @@
 use Pod::PerlTricks::ToHTML;
+use JSON::Tiny;
 
 # this class is intended for use with AngularJS
-# head contains metadata about the document: title, author, publish-date etc
-# body contains the main article text in HTML
+# the head attribute contains metadata about the document: title, author, publish-date etc
+# the body attribute contains the main article text in HTML
+# The entire json is added to the .ast/.made slot in the match object
 
 class Pod::PerlTricks::ToJSON is Pod::PerlTricks::ToHTML
 {
@@ -10,15 +12,10 @@ class Pod::PerlTricks::ToJSON is Pod::PerlTricks::ToHTML
   method TOP ($match)
   {
     # parse the head pairs into JSON
-    $.head = '';
-    for @.meta
-    {
-      $.head ~= "\"{$_.key}\":\"{$_.value.subst('"', {'\"'}, :g)}\",\n";
-    }
-    $.head = $.head.subst(/\,\n$/, '');
-
-    $.body = (self.stringify-match($match) ~ self.build-footnotes).subst(/\n ** 3..*/, {"\n\n"}, :g).subst('"', {'\"'}, :g);
-    $match.make("\{ \"head\":\"{$.head}\",\n\"body\":\"{$.body}\"}");
+    $.head = to-json(@.meta);
+    $.body = to-json(
+      (self.stringify-match($match) ~ self.build-footnotes).subst(/\n ** 3..*/, {"\n\n"}, :g));
+    $match.make(to-json({"head" => @.meta, "body" => $.body}));
   }
 
   multi method command-block:encoding ($match)
@@ -90,7 +87,7 @@ class Pod::PerlTricks::ToJSON is Pod::PerlTricks::ToHTML
 
   multi method command-block:tags ($match)
   {
-    @.meta.push("keywords" => "[\"{ $match<name>.values.join("\",\"")}\"]");
+    @.meta.push("keywords" => [$match<name>.values».made]);
     $match.make('');
   }
 
