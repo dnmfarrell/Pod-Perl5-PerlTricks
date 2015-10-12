@@ -10,14 +10,17 @@
 
 
 <img src="onion_charcoal.png" alt="Perl Onion" class="cover">
+
 <div class="title">Separate data and behavior with table-driven testing</div>
+
 <div class="subtitle">Applying DRY to unit testing</div>
 
 <div class="publish-date">2000-12-31T00:00:00Z</div>
 
-<p class="author-bio"><a href="http://www.pair.com/~comdog/">brian d foy</a> (<a href="https://twitter.com/briandfoy_perl">briandfoy_perl</a>) is a <a href="https://en.wikipedia.org/wiki/Perl">Perl</a> trainer and writer. He's the author of Mastering Perl and co-author of Programming Perl, Learning Perl, Intermediate Perl and Effective Perl Programming. Github: <a href="https://github.com/briandfoy/projects">projects</a>.</p><img src="http://static/images/brian_d_foy.png" alt="http://static/images/brian_d_foy.png" class="author-image">
+<p class="author-bio"><a href="http://www.pair.com/~comdog/">brian d foy</a> (<a href="https://twitter.com/briandfoy_perl">briandfoy_perl</a>) is a <a href="https://en.wikipedia.org/wiki/Perl">Perl</a> trainer and writer. He's the author of Mastering Perl and co-author of Programming Perl, Learning Perl, Intermediate Perl and Effective Perl Programming. Github: <a href="https://github.com/briandfoy/projects">projects</a>.</p>
+<img src="http://static/images/brian_d_foy.png" alt="http://static/images/brian_d_foy.png" class="author-image">
 
-<p>How can I easily run the same tests on different data without duplicating a lot of code? If I follow my usual pattern, I start off with a couple of tests where I write some code then cut-and-paste that a couple of times. I add a few more tests before I realize I have a mess. If I had the foresight to know that I would make a mess (again), I would have started with a table of data and a little bit of code that went through it.<sup><a href="#1">1</a></sup></p>
+<p>How can I easily run the same tests on different data without duplicating a lot of code? If I follow my usual pattern, I start off with a couple of tests where I write some code then cut-and-paste that a couple of times. I add a few more tests before I realize I have a mess. If I had the foresight to know that I would make a mess (again), I would have started with a table of data and a little bit of code that went through it.<sup><a href="#0_1">1</a></sup></p>
 
 <p>Consider a silly and small example of testing <code>sprintf</code>-like behaviour of M<String::Sprintf>. I can use this module to create my own format specifiers, such as one to commify a number. I stole this mostly from its documentation, although I threw in the <a href="http://www.effectiveperlprogramming.com/2015/04/use-v5-20-subroutine-signatures/">v5.20 signatures feature</a> and the <a href="http://www.effectiveperlprogramming.com/2010/09/use-the-r-substitution-flag-to-work-on-a-copy/">v5.14 non-destructive</a> <code>/r</code> flag on the substitution operator> because I love those features:</p>
 
@@ -182,8 +185,9 @@ while( my $row = $sth->fetchrow_arrayref ) {
 <p>That's the idea. I separate the data and the tests to give myself some flexibility. How I access the data and how I test depend on my particular problems.</p>
 <div class="footnotes">
 <ul>
-<li id="1">[1] This is known as <a href="https://en.wikipedia.org/wiki/data-driven-testing">data-driven-testing</a></li>
+<li id="0_1">[1] This is known as <a href="https://en.wikipedia.org/wiki/data-driven-testing">data-driven-testing</a></li>
 </ul>
 </div>
+
 </body>
 </html>

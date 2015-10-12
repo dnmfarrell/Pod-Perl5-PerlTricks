@@ -6,6 +6,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   # these are appended to the bottom of the <body> element
   # see format-code:note
   has @.footnotes = [];
+  has $.chapter_count = 0;
 
   # language is an attribute of the root element
   has $.lang is rw;
@@ -26,9 +27,10 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
     my $footnotes_string = "<div class=\"footnotes\">\n<ul>\n";
     for 0..(@.footnotes.elems - 1)
     {
-      $footnotes_string ~= "<li id=\"{$_ + 1}\">[{$_ + 1}] {@.footnotes[$_]}</li>\n";
+      $footnotes_string ~= "<li id=\"{$.chapter_count}_{$_ + 1}\">[{$_ + 1}] {@.footnotes[$_]}</li>\n";
     }
-    return $footnotes_string ~ "</ul>\n</div>";
+    @.footnotes = [];
+    return $footnotes_string ~ "</ul>\n</div>\n";
   }
 
   ########################
@@ -60,8 +62,8 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   {
     my $footnote = $match<format-text>.made;
     @.footnotes.push($footnote);
-    my $footnote_index = @!footnotes.elems;
-    $match.make("<sup><a href=\"#{$footnote_index}\">{$footnote_index}</a></sup>");
+    my $footnote_index = @.footnotes.elems;
+    $match.make("<sup><a href=\"#{$.chapter_count}_{$footnote_index}\">{$footnote_index}</a></sup>");
   }
 
   multi method format-code:terminal ($match)
@@ -155,24 +157,26 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
 
   multi method command-block:chapter ($match)
   {
-    $match.make("<div class=\"chapter\">{$match<singleline-text>.made}</div>");
+    my $previous_chapter_footnotes = self.build-footnotes();
+    $.chapter_count++;
+    $match.make("{$previous_chapter_footnotes}<div class=\"chapter\">{$match<singleline-text>.made}</div>\n");
   }
 
   # save in meta to be used in <head> later
   multi method command-block:title ($match)
   {
     @.meta.push("<title>{$match<singleline-text>.made}</title>");
-    $match.make("<div class=\"title\">{$match<singleline-text>.made}</div>");
+    $match.make("<div class=\"title\">{$match<singleline-text>.made}</div>\n");
   }
 
   multi method command-block:subtitle ($match)
   {
-    $match.make("<div class=\"subtitle\">{$match<singleline-text>.made}</div>");
+    $match.make("<div class=\"subtitle\">{$match<singleline-text>.made}</div>\n");
   }
 
   multi method command-block:section ($match)
   {
-    $match.make("<div class=\"section\">{$match<singleline-text>.made}</div>");
+    $match.make("<div class=\"section\">{$match<singleline-text>.made}</div>\n");
   }
 
   # "author" is an official metadata name so we add it to meta
@@ -185,7 +189,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
 
   multi method command-block:author-bio ($match)
   {
-    $match.make("<p class=\"author-bio\">{$match<multiline-text>.made}</p>");
+    $match.make("<p class=\"author-bio\">{$match<multiline-text>.made}</p>\n");
   }
 
   multi method command-block:author-image ($match)
@@ -234,7 +238,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
   # cover-image is like image except it gets the cover class
   multi method command-block:cover-image ($match)
   {
-    $match.make(self.create-img($match<format-code>, ['cover']));
+    $match.make(self.create-img($match<format-code>, ['cover']) ~ "\n" );
   }
 
   method create-img ($link, @html_classes?)
