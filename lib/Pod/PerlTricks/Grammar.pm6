@@ -15,7 +15,10 @@ grammar Pod::PerlTricks::Grammar is Pod::Perl5::Grammar
 
   # include will have the action class parse the included file too
   # useful for boilerplate metadata like author data
-  multi token command-block:include { ^^\=include \h+ <format-code:link> \n }
+  multi token command-block:include
+  {
+    ^^\=include \h+ <format-code:link> [\s* <format-code:link>]* \n
+  }
 
   # author metadata
   multi token command-block:author-name  { ^^\=author\-name  \h+ <singleline-text> \n }

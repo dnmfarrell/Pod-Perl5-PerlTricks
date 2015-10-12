@@ -129,25 +129,28 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
 
   multi method command-block:include ($match)
   {
-    my $filepath = $match<format-code><url>.Str.subst(/^file\:\/\//, '');
-    die 'Error parsing =include block L<>, should be in the format: L<file://path/to/file.pod>'
-      unless $filepath;
-
-    # can't use current self - it has state!
-    my $actions  = self.new;
- 
-    # now parse the file
-    my $submatch = Pod::PerlTricks::Grammar.parsefile($filepath, :$actions);
-    CATCH { die "Error parsing =include directive $_" }
-
-    # copy any meta directives out of the sub-action class
-    for $actions.meta
+    for $match<format-code>
     {
-      @.meta.push($_);
+      my $filepath = $_<url>.Str.subst(/^file\:\/\//, '');
+      die 'Error parsing =include block L<>, should be in the format: L<file://path/to/file.pod>'
+        unless $filepath;
+
+      # can't use current self - it has state!
+      my $actions  = self.new;
+   
+      # now parse the file
+      my $submatch = Pod::PerlTricks::Grammar.parsefile($filepath, :$actions);
+      CATCH { die "Error parsing =include directive $_" }
+
+      # copy any meta directives out of the sub-action class
+      for $actions.meta
+      {
+        @.meta.push($_);
+      }
+      # get the inline pod
+      # TODO handle more than 1 pod section ?
+      $match.make(self.stringify-match($submatch<pod-section>[0]));
     }
-    # get the inline pod
-    # TODO handle more than 1 pod section ?
-    $match.make(self.stringify-match($submatch<pod-section>[0]));
   }
 
   multi method command-block:chapter ($match)
@@ -218,8 +221,7 @@ class Pod::PerlTricks::ToHTML is Pod::Perl5::ToHTML
 
   multi method command-block:publish-date ($match)
   {
-    @.meta.push("<meta name=\"publish-date\" content=\"{$match<datetime>.made}\">");
-    $match.make('');
+    $match.make("<div class=\"publish-date\">{$match<datetime>.made}</div>\n");
   }
 
   # images

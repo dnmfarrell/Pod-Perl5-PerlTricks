@@ -28,7 +28,7 @@ is $pod<command-block>[6]<datetime>.Str,
   '2000-12-31T00:00:00',
   'publish-date';
 
-is my $include = $pod<command-block>[7]<format-code><url>.Str,
+is my $include = $pod<command-block>[7]<format-code>[0]<url>.Str,
   'file://test-corpus/briandfoy.pod',
   'Match filepath of include directive';
 
