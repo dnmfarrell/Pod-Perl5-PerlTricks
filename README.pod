@@ -62,17 +62,49 @@ C<=table> indicates the start of a pipe-separated table. The directive must be f
 
 The whitespace around the pipes is optional and will not be associated with the text in the cell.
 
-=head3 chapter, title, subtitle, =ection
+=head3 begin data, terminal & code
+
+C<Pod::PerlTricks> supports 3 new types of begin/end blocks:
+
+=over 4
+
+=item * data - this is meant to represent data
+
+=item * terminal - for terminal output, commands etc
+
+=item * code - for programming code
+
+=back
+
+So you can do:
+
+  =begin code
+
+    use Some::Lib;
+
+    my $foo = Bar.new();
+
+  =end code
+
+The ToHTML and ToJSON action classes render these begin/end blocks as C<E<lt>preE<gt>> nodes, with a matching class attribute so they can be rendered differently.
+
+=head3 chapter, title, subtitle, section
 
 These are article metadata directives, e.g.:
 
   =title 5 Ways to Optimize Your Code
+
+For C<Pod::PerlTricks::ToHTML> This will be rendered in a div node with the class attribute C<title>, and added to the head node. For C<Pod::PerlTricks::ToJSON> article metadata directives are included as a key/pair value in the head key, but not rendered in the body.
 
 =head3 publish-date
 
 C<=publish-date> takes an ISO8601 datetime, with an optional timezone component. This can be used to determine when an article "goes live" on a blog site, and is also just useful metadata.
 
   =publish-date 2015-09-30T18:00:00
+
+=head3 lang
+
+Specify the language that the article is written in. In C<Pod::PerlTricks::ToHTML> this is added to the root HTML node.
 
 =head2 New formatting codes
 
