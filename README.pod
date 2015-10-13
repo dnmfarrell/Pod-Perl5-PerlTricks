@@ -22,7 +22,7 @@ Pod::PerlTricks - Perl 6 parser for PerlTricks pseudopod with to-HTML and to-JSO
 
 C<Pod::PerlTricks> extends ordinary L<pod|http://perldoc.perl.org/perlpod.html> with new syntax for blogging / publishing. C<Pod::PerlTricks::Grammar> supports all of regular pod, plus new directives. It comes with action classes for converting PerlTricks pod to HTML (C<Pod::PerlTricks::ToHTML>)  and to JSON (C<Pod::PerlTricks::ToJSON>) with the document body serialized as HTML and the meta attributes in key value pairs (mostly for use with AngularJS).
 
-If you're just interested in the normal pod syntax, take a look at L<Pod::Perl5|https://github.com/dnmfarrell/Pod-Perl5>
+If you're just interested in parsing normal pod syntax, take a look at L<Pod::Perl5|https://github.com/dnmfarrell/Pod-Perl5>. It can translate pod into both HTML and Markdown.
 
 =head2 new command blocks
 
