@@ -8,7 +8,7 @@
     "provides" : {
       "Pod::Grammar" : "lib/Pod/PerlTricks/Grammar.pm6",
       "Pod::ToHTML"  : "lib/Pod/PerlTricks/ToHTML.pm6",
-      "Pod::ToHTML"  : "lib/Pod/PerlTricks/ToJSON.pm6"
+      "Pod::ToJSON"  : "lib/Pod/PerlTricks/ToJSON.pm6"
     },
     "source-type" : "git",
     "source-url" : "git://github.com/dnmfarrell/Pod-PerlTricks.git"
